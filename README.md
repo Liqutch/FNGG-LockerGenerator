@@ -1,5 +1,8 @@
 # Fortnite.GG Locker
 Fortnite hesabınızdaki kozmetik içerikleri [Fortnite.GG](https://fortnite.gg)'ye aktarır ve görüntülemenizi sağlar.
+
+<img src="https://i.ibb.co/hVRV9rM/locker.jpg" alt="Locker Example" width="630"/>
+
 # Gereksinimler
 - [Python](https://www.python.org/downloads/) 3.6 ve üstü bir sürümün yüklü ve PATH'e eklenmiş olduğundan emin olun.
 - `packages.bat` adlı dosyayı çalıştırarak gerekli modülleri yükleyin veya aşağıdaki satırları komut istemcisine yazın.
