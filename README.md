@@ -4,7 +4,7 @@ Program to easily showcase your locker on FortniteGG using Epic Games API. Made 
 
 After completing the authorization, start the process and the program will open your locker.
 
-![image](https://github.com/Liqutch/ProfileExtractor/assets/113312256/2fea463e-5f9a-4e5f-868c-023e48019b9b)
+![image](https://github.com/Liqutch/FNGG-LockerGenerator/assets/113312256/2ee18a03-c9a2-447c-801c-19ce2417e91f)
 
 # Usage
 1. Install the requirements _(only applies to the Python script, you don't need to install requirements for the executable)_.
