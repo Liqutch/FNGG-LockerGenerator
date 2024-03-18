@@ -1,3 +1,6 @@
-requests
 coloredlogs
-logging
+pyperclip
+inquirer
+aiohttp
+asyncio
+yarl
