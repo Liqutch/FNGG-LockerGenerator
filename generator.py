@@ -57,7 +57,7 @@ class Generator:
         self.http: aiohttp.ClientSession
 
         self.access_token = ""
-        self.user_agent = f"LockerGenerator/{__version__} {platform.system()}/{platform.version()}"
+        self.user_agent = f"LockerGenerator/v{__version__} {platform.system()}/{platform.version()}"
         
     async def start(self) -> None:
         self.http = aiohttp.ClientSession(headers={"User-Agent": self.user_agent})
@@ -97,6 +97,15 @@ class Generator:
             if item in fngg_items_lowercase:
                 original_id = list(fngg_items.keys())[fngg_items_lowercase.index(item.lower())]
                 locker.append(original_id)
+        
+        gg_bundles = await self.get_fngg_bundles()
+        target_bundles = []
+
+        for bundle_name, bundle_info in gg_bundles.items():
+            if all(item in locker for item in bundle_info["items"]):
+                target_bundles.append(bundle_name)
+        
+        locker.extend(target_bundles)
 
         ints = list(map(lambda it: int(fngg_items[it]), locker))
         ints.sort()
@@ -126,6 +135,13 @@ class Generator:
         async with self.http.request(
             method="GET",
             url="https://fortnite.gg/api/items.json",
+        ) as request:
+            return await request.json()
+    
+    async def get_fngg_bundles(self) -> dict:
+        async with self.http.request(
+            method="GET",
+            url="https://fortnite.gg/api/bundles.json",
         ) as request:
             return await request.json()
     
@@ -188,5 +204,5 @@ class Generator:
         loop.run_forever()
 
 
-ext = Generator()
-ext.run()
+gen = Generator()
+gen.run()
