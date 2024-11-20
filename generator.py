@@ -199,9 +199,7 @@ class Generator:
         return EpicAccount(data=auth_data)
 
     def run(self) -> None:
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(self.start())
-        loop.run_forever()
+        asyncio.run(self.start())
 
 
 gen = Generator()
