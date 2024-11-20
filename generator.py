@@ -98,6 +98,18 @@ class Generator:
                 original_id = list(fngg_items.keys())[fngg_items_lowercase.index(item.lower())]
                 locker.append(original_id)
         
+        cosmetics = {}
+        api_response = await self.get_cosmetics_api()
+
+        if api_response["status"] == 200:
+            for cosmetic in api_response["data"]:
+                if "builtInEmoteIds" in cosmetic:
+                    cosmetics[cosmetic["id"]] = cosmetic["builtInEmoteIds"]
+
+        for cosmetic in locker:
+            if cosmetics.get(cosmetic, False):
+                locker.extend(cosmetics[cosmetic])
+
         gg_bundles = await self.get_fngg_bundles()
         target_bundles = []
 
@@ -126,6 +138,7 @@ class Generator:
         url = f"https://fortnite.gg/my-locker?items={encoded}"
         os.startfile(url)
 
+        await self.http.close()
         log.info("Link successfully copied to the clipboard. Press enter to close the program.")
         pyperclip.copy(url)
         
@@ -142,6 +155,13 @@ class Generator:
         async with self.http.request(
             method="GET",
             url="https://fortnite.gg/api/bundles.json",
+        ) as request:
+            return await request.json()
+    
+    async def get_cosmetics_api(self) -> dict:
+        async with self.http.request(
+            method="GET",
+            url="https://fortnite-api.com/v2/cosmetics/br",
         ) as request:
             return await request.json()
     
