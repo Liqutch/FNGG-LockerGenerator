@@ -32,12 +32,12 @@ class EpicAccount:
         self.display_name = data.get("displayName", "")
         self.account_id = data.get("account_id", "")
     
-    async def get_profile(self):
+    async def get_profile(self, profile: str):
         async with aiohttp.ClientSession() as session:
             async with session.request(
                 method="POST",
                 url="https://fngw-mcp-gc-livefn.ol.epicgames.com"
-                f"/fortnite/api/game/v2/profile/{self.account_id}/client/QueryProfile?profileId=athena&rvn=-1",
+                f"/fortnite/api/game/v2/profile/{self.account_id}/client/QueryProfile?profileId={profile}&rvn=-1",
                 headers={"Authorization": f"bearer {self.access_token}", "Content-Type": "application/json"},
                 data=json.dumps({})
             ) as request:
@@ -69,7 +69,7 @@ class Generator:
         webbrowser.open(device_code[0], new=1)
 
         account = await self.wait_for_device_code_completion(code=device_code[1])
-        data = await account.get_profile()
+        data = await account.get_profile(profile="athena")
 
         os.system('cls' if sys.platform.startswith('win') else 'clear')
         log.info(f"Logged in as: {account.display_name}\n")
@@ -80,14 +80,24 @@ class Generator:
         os.system('cls' if sys.platform.startswith('win') else 'clear')
         if not answers['start']:
             log.info(f'Closing LockerGenerator v{__version__}...')
+            await self.http.close()
             await asyncio.sleep(1)
             sys.exit()
 
         account_items = data["profileChanges"][0]["profile"]["items"]
         athena_creation_date = data["profileChanges"][0]["profile"]["created"]
 
+        common_core = await account.get_profile(profile="common_core")
+        banner_items = common_core["profileChanges"][0]["profile"]["items"]
+
+        banners = []
+        for item in banner_items:
+            if "HomebaseBannerIcon" in banner_items[item]["templateId"]:
+                banners.append(banner_items[item]["templateId"].split(":")[1])
+
         log.info("Generating the locker...")
         all_items = list(map(lambda item: account_items[item]["templateId"].split(":")[1], account_items))
+        all_items.extend(banners)
         
         locker = []
         fngg_items = await self.get_fngg_items()
