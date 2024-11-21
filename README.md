@@ -4,6 +4,11 @@ Program to easily showcase your locker on FortniteGG using Epic Games API. Made 
 
 After completing the authorization, start the process and the program will open your locker.
 
+## Generated Items
+- All Type of Battle Royale Cosmetics
+- All Purchased Bundles (Except packs with real money)
+- All Account Banners (Including STW)
+
 ![image](https://github.com/Liqutch/FNGG-LockerGenerator/assets/113312256/5bbaefde-d972-4975-aece-f4b1a99428d7)
 
 # Usage
