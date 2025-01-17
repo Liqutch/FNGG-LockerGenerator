@@ -146,7 +146,7 @@ class Generator:
         encoded = base64.urlsafe_b64encode(compressed).decode().rstrip("=")
         
         url = f"https://fortnite.gg/my-locker?items={encoded}"
-        os.startfile(url)
+        webbrowser.open(url)
 
         await self.http.close()
         log.info("Link successfully copied to the clipboard. Press enter to close the program.")
